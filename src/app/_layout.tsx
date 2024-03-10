@@ -5,26 +5,54 @@ import {
 } from "@expo-google-fonts/mulish";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import { ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
+import AnimatedSplashScreen from "@/components/splash";
+import Animated, { FadeIn } from "react-native-reanimated";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
+  const [appReady, setAppReady] = useState<boolean>(false);
+  const [splashAnimationFinished, setSplashAnimationFinished] =
+    useState<boolean>(false);
+
   let [fontsLoaded, fontError] = useFonts({
     Mulish: Mulish_400Regular,
     MulishBold: Mulish_700Bold,
     MulishItalic: Mulish_500Medium_Italic,
   });
 
-  if (!fontsLoaded && !fontError) {
-    return <ActivityIndicator size="large" color="red" />;
-  }
-  return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      // SplashScreen.hideAsync();
+      setAppReady(true);
+    }
+  }, [fontsLoaded, fontError]);
+
+  const showAnimatedSplash = !appReady || !splashAnimationFinished;
+  if (showAnimatedSplash) {
+    return (
+      <AnimatedSplashScreen
+        onAnimationFinish={(isCancelled) => {
+          if (!isCancelled) {
+            setSplashAnimationFinished(true);
+          }
         }}
       />
-    </Stack>
+    );
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Animated.View style={{ flex: 1 }} entering={FadeIn}>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack>
+      </Animated.View>
+    </GestureHandlerRootView>
   );
 }

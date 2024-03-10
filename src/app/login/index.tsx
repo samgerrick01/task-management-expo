@@ -1,21 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
 
-const LoginScreen = () => {
+const index = () => {
   return (
     <View>
-      <Stack.Screen
-        options={{
-          headerTitle: "Login Screen",
-          headerTitleAlign: "center",
-        }}
-      />
       <Text>Login Screen</Text>
     </View>
   );
 };
 
-export default LoginScreen;
+export default index;
 
 const styles = StyleSheet.create({});
