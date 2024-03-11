@@ -11,7 +11,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Image source={banner} style={styles.logo} resizeMode="contain" />
 
-      <Link href={`/splash-screen`} asChild>
+      <Link href={`/login`} asChild>
         <TouchableOpacity style={styles.btnWrapper}>
           <Text style={styles.text}>Let's Begin</Text>
           <AntDesign name="rightcircle" size={24} color="white" />
