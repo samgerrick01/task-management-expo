@@ -2,13 +2,13 @@ import {
   Mulish_400Regular,
   Mulish_700Bold,
   Mulish_500Medium_Italic,
-} from "@expo-google-fonts/mulish";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
-import AnimatedSplashScreen from "@/components/splash";
-import Animated, { FadeIn } from "react-native-reanimated";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+} from '@expo-google-fonts/mulish';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
+import AnimatedSplashScreen from '@/components/splash';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
   const [appReady, setAppReady] = useState<boolean>(false);
@@ -45,7 +45,7 @@ export default function RootLayout() {
       <Animated.View style={{ flex: 1 }} entering={FadeIn}>
         <Stack>
           <Stack.Screen
-            name="index"
+            name='index'
             options={{
               headerShown: false,
             }}

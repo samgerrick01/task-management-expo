@@ -1,17 +1,17 @@
-import { Link } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import LottieView from "lottie-react-native";
+import { Link } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 //Icons & Images
-import { AntDesign } from "@expo/vector-icons";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { AntDesign } from '@expo/vector-icons';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("@assets/images/background.png")}
+        source={require('@assets/images/background.png')}
         style={styles.bgImg}
       />
       <Animated.View
@@ -30,23 +30,23 @@ export default function HomeScreen() {
         autoPlay
         loop={true}
         style={{
-          width: "100%",
+          width: '100%',
           maxWidth: 400,
           height: 400,
         }}
-        source={require("@assets/animation/register.json")}
+        source={require('@assets/animation/register.json')}
       />
 
       <Animated.View entering={FadeInDown.duration(1000).springify()}>
         <Link href={`/login`} asChild>
           <TouchableOpacity style={styles.btnWrapper}>
             <Text style={styles.text}>Let's Begin</Text>
-            <AntDesign name="rightcircle" size={24} color="white" />
+            <AntDesign name='rightcircle' size={24} color='white' />
           </TouchableOpacity>
         </Link>
       </Animated.View>
 
-      <StatusBar style="light" />
+      <StatusBar style='light' />
     </View>
   );
 }
@@ -54,38 +54,38 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   bgImg: {
-    height: "100%",
-    width: "100%",
-    position: "absolute",
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
   },
   btnWrapper: {
-    backgroundColor: "#2ba1dd",
+    backgroundColor: '#2ba1dd',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,
     marginTop: 30,
-    alignSelf: "center",
-    width: "80%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignSelf: 'center',
+    width: '80%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   text: {
-    fontFamily: "MulishItalic",
+    fontFamily: 'MulishItalic',
     fontSize: 24,
-    color: "#fff",
+    color: '#fff',
   },
   titleWrapper: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   titleText: {
-    color: "white",
-    fontFamily: "MulishBold",
+    color: 'white',
+    fontFamily: 'MulishBold',
     fontSize: 36,
   },
 });
