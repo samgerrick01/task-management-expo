@@ -8,10 +8,10 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: 'blue',
         tabBarStyle: {
-          height: 50,
+          // height: 50,
           borderRadius: 20,
           marginHorizontal: 20,
-          marginBottom: 10,
+          // marginBottom: 10,
         },
       }}
     >

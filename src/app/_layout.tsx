@@ -9,9 +9,13 @@ import { useEffect, useState } from 'react';
 import AnimatedSplashScreen from '@/components/splash';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { DataContext } from '@/context';
+import { ITask } from '@/utils/interface';
 
 export default function RootLayout() {
   const [appReady, setAppReady] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<ITask[]>([]);
   const [splashAnimationFinished, setSplashAnimationFinished] =
     useState<boolean>(false);
 
@@ -42,22 +46,26 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Animated.View style={{ flex: 1 }} entering={FadeIn}>
-        <Stack>
-          <Stack.Screen
-            name='index'
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name='(tabs)'
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-      </Animated.View>
+      <SafeAreaProvider>
+        <DataContext.Provider value={{ tasks, setTasks }}>
+          <Animated.View style={{ flex: 1 }} entering={FadeIn}>
+            <Stack>
+              <Stack.Screen
+                name='index'
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name='(tabs)'
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack>
+          </Animated.View>
+        </DataContext.Provider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

@@ -1,3 +1,8 @@
+import { DataContext } from '@/context';
+import { sortItemsByPrio } from '@/utils/sortTasks';
+import { AntDesign } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
+import React, { useContext, useMemo, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -6,60 +11,37 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useMemo, useState } from 'react';
-import { AntDesign, Octicons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
 import SingleTask from './SingleTask';
-import { router } from 'expo-router';
+import EmptyTask from './EmptyTask';
+import { ActivityIndicator } from 'react-native-paper';
 
-const TaskComponent = () => {
+interface IProps {
+  openAddTask: React.Dispatch<React.SetStateAction<boolean>>;
+  getLoading: boolean;
+}
+
+const TaskComponent = (props: IProps) => {
   const [selected, setSelected] = useState<
     'all' | 'todo' | 'complete' | 'priority'
   >('all');
 
-  const mockdata = [
-    { id: 1, title: 'Task 1', status: true, priority: false, comments: [] },
-    {
-      id: 2,
-      title:
-        'Task 2 Task 2 Task 2 Task 2 Task 2 Task 2 Task 2 Task 2 Task 2 Task 2',
-      status: false,
-      priority: false,
-      comments: [],
-    },
-    { id: 3, title: 'Task 3', status: false, priority: true, comments: [] },
-    { id: 4, title: 'Task 4', status: true, priority: false, comments: [] },
-    { id: 5, title: 'Task 5', status: false, priority: true, comments: [] },
-    { id: 6, title: 'Task 1', status: false, priority: false, comments: [] },
-    { id: 7, title: 'Task 2', status: true, priority: false, comments: [] },
-    { id: 8, title: 'Task 3', status: false, priority: false, comments: [] },
-    { id: 9, title: 'Task 4', status: true, priority: false, comments: [] },
-  ];
+  const { tasks } = useContext(DataContext);
 
-  const sortedData = mockdata.sort((a, b) => {
-    if (a.priority === b.priority) {
-      return 0;
-    }
-    if (a.priority) {
-      return -1;
-    }
-    if (b.priority) {
-      return 1;
-    }
-    return 0;
-  });
+  const sortedTask = useMemo(() => {
+    return sortItemsByPrio(tasks);
+  }, [tasks]);
 
   const filteredTasks = useMemo(() => {
     if (selected === 'all') {
-      return sortedData;
+      return sortedTask;
     } else if (selected === 'todo') {
-      return sortedData.filter((task) => !task.status);
+      return sortedTask.filter((task) => !task.status);
     } else if (selected === 'priority') {
-      return sortedData.filter((task) => task.priority);
+      return sortedTask.filter((task) => task.priority);
     } else {
-      return sortedData.filter((task) => task.status);
+      return sortedTask.filter((task) => task.status);
     }
-  }, [sortedData, selected]);
+  }, [sortedTask, selected]);
 
   return (
     <View style={styles.container2}>
@@ -71,7 +53,7 @@ const TaskComponent = () => {
         }}
       >
         <Pressable
-          //   onPress={() => router.push('/add-task')}
+          onPress={() => props.openAddTask(true)}
           style={{
             alignItems: 'center',
             flexDirection: 'row',
@@ -98,11 +80,19 @@ const TaskComponent = () => {
         </Picker>
       </View>
       <SafeAreaView style={{ paddingBottom: 40 }}>
-        <FlatList
-          data={filteredTasks}
-          renderItem={({ item }) => <SingleTask {...item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
+        {props.getLoading && (
+          <View style={{ marginTop: '25%' }}>
+            <ActivityIndicator size={50} color='blue' />
+          </View>
+        )}
+        {!props.getLoading && (
+          <FlatList
+            data={filteredTasks}
+            renderItem={({ item }) => <SingleTask {...item} />}
+            keyExtractor={(item) => item.docId}
+            ListEmptyComponent={<EmptyTask selected={selected} />}
+          />
+        )}
       </SafeAreaView>
     </View>
   );

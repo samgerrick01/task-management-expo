@@ -34,7 +34,7 @@ const index = () => {
         const auth = getAuth(app);
         await signInWithEmailAndPassword(auth, email, password);
         setLoading(false);
-        router.push('/home');
+        router.push('/(tabs)');
         return;
       } catch (error: any) {
         setLoading(false);

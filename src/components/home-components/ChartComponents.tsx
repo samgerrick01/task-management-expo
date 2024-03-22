@@ -1,13 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   FontAwesome,
   Ionicons,
   FontAwesome5,
   MaterialIcons,
+  AntDesign,
 } from '@expo/vector-icons';
+import { DataContext } from '@/context';
+import {
+  countAllTask,
+  countCompletedTasks,
+  countPriorityTasks,
+  countTodoTasks,
+} from '@/utils/sortTasks';
 
 const ChartComponents = () => {
+  const { tasks, setTasks } = useContext(DataContext);
   return (
     <View style={styles.container1}>
       {/* 1st column */}
@@ -19,7 +28,7 @@ const ChartComponents = () => {
             size={24}
             color='white'
           />
-          <Text style={styles.cardUpperText}>14</Text>
+          <Text style={styles.cardUpperText}>{countAllTask(tasks)}</Text>
           <Text style={styles.cardUpperText}>All Task</Text>
         </View>
         <View style={[styles.cardUpper, { backgroundColor: '#deb176' }]}>
@@ -29,7 +38,7 @@ const ChartComponents = () => {
             size={24}
             color='white'
           />
-          <Text style={styles.cardUpperText}>14</Text>
+          <Text style={styles.cardUpperText}>{countTodoTasks(tasks)}</Text>
           <Text style={styles.cardUpperText}>To do</Text>
         </View>
       </View>
@@ -42,17 +51,17 @@ const ChartComponents = () => {
             size={24}
             color='white'
           />
-          <Text style={styles.cardUpperText}>14</Text>
+          <Text style={styles.cardUpperText}>{countCompletedTasks(tasks)}</Text>
           <Text style={styles.cardUpperText}>Complete</Text>
         </View>
         <View style={[styles.cardUpper, { backgroundColor: '#e12f28' }]}>
-          <MaterialIcons
+          <AntDesign
             style={{ alignSelf: 'flex-end' }}
-            name='priority-high'
+            name='exclamationcircle'
             size={24}
             color='white'
           />
-          <Text style={styles.cardUpperText}>14</Text>
+          <Text style={styles.cardUpperText}>{countPriorityTasks(tasks)}</Text>
           <Text style={styles.cardUpperText}>Priority</Text>
         </View>
       </View>

@@ -1,14 +1,85 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import app from 'firebaseConfig';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import ChartComponents from '@/components/home-components/ChartComponents';
 import TaskComponent from '@/components/home-components/TaskComponent';
+import InputModal from '@/shared/InputModal';
+import { DataContext } from '@/context';
+import { createTask } from '@/firebase/create';
+import { fetchOnlyMyTaskList } from '@/firebase/read';
 
 const index = () => {
   const user = getAuth(app).currentUser;
+
+  const { tasks, setTasks } = useContext(DataContext);
+
+  const [inputText, setInputText] = useState<string>('');
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [getLoading, setGetLoading] = useState<boolean>(false);
+
+  const handleAddTask = async () => {
+    if (!inputText) {
+      return;
+    } else {
+      try {
+        setLoading(true);
+        if (!user) return;
+        const addedTask = await createTask({
+          title: inputText,
+          ownerId: user?.uid,
+          status: false,
+          priority: false,
+          comments: [],
+          id: tasks.length + 1,
+        });
+
+        const todoItem = {
+          completed: false,
+          title: inputText,
+          ownerId: user?.uid,
+          docId: addedTask.id,
+        };
+        setTasks(() => [todoItem, ...tasks]);
+        fetchMyTaskList();
+        setInputText('');
+      } catch (error: any) {
+        alert(error.message);
+      } finally {
+        setLoading(false);
+        setOpenModal(false);
+      }
+    }
+  };
+
+  async function fetchMyTaskList() {
+    setGetLoading(true);
+    if (!user) return;
+    const result = await fetchOnlyMyTaskList(user.uid);
+    const myTasks = result.docs.map((d) => ({ docId: d.id, ...d.data() }));
+    setTasks(myTasks);
+    setGetLoading(false);
+  }
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    } else {
+      fetchMyTaskList();
+    }
+  }, []);
+
   return (
     <View style={styles.main}>
       <StatusBar style='light' />
@@ -23,7 +94,17 @@ const index = () => {
 
       <ChartComponents />
 
-      <TaskComponent />
+      <TaskComponent getLoading={getLoading} openAddTask={setOpenModal} />
+
+      <InputModal
+        title='Add Task'
+        visible={openModal}
+        close={setOpenModal}
+        inputText={inputText}
+        setInputText={setInputText}
+        handleAdd={handleAddTask}
+        loading={loading}
+      />
     </View>
   );
 };
