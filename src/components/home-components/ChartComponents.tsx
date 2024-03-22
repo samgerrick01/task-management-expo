@@ -1,12 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useContext } from 'react';
-import {
-  FontAwesome,
-  Ionicons,
-  FontAwesome5,
-  MaterialIcons,
-  AntDesign,
-} from '@expo/vector-icons';
 import { DataContext } from '@/context';
 import {
   countAllTask,
@@ -14,9 +5,17 @@ import {
   countPriorityTasks,
   countTodoTasks,
 } from '@/utils/sortTasks';
+import {
+  AntDesign,
+  FontAwesome,
+  FontAwesome5,
+  Ionicons,
+} from '@expo/vector-icons';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 const ChartComponents = () => {
-  const { tasks, setTasks } = useContext(DataContext);
+  const { tasks } = useContext(DataContext);
   return (
     <View style={styles.container1}>
       {/* 1st column */}
@@ -74,14 +73,12 @@ export default ChartComponents;
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    // backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     justifyContent: 'space-between',
   },
   cardUpper: {
     width: '45%',
-    backgroundColor: 'purple',
     borderRadius: 20,
     height: 140,
     padding: 15,

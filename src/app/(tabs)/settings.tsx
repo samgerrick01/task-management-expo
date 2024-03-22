@@ -1,15 +1,14 @@
+import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { getAuth } from 'firebase/auth';
 import {
-  View,
-  Text,
-  StyleSheet,
   Image,
   Linking,
-  Button,
   Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { getAuth } from 'firebase/auth';
-import { router } from 'expo-router';
 
 export default function Tab() {
   const auth = getAuth();
@@ -42,11 +41,9 @@ export default function Tab() {
         </Text>
       </View>
 
-      <View style={{ flexDirection: 'column' }}>
+      <View style={{ flexDirection: 'column', width: '100%' }}>
         <Pressable style={styles.portfolioBtn} onPress={handleMyPortfolio}>
-          <Text style={{ color: 'white', fontSize: 20 }}>
-            View my Portfolio
-          </Text>
+          <Text style={styles.signOutText}>View my Portfolio</Text>
         </Pressable>
         <Pressable
           style={[styles.portfolioBtn, { backgroundColor: '#0e86d4' }]}
@@ -55,9 +52,7 @@ export default function Tab() {
             router.navigate('/login');
           }}
         >
-          <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
-            Sign Out
-          </Text>
+          <Text style={styles.signOutText}>Sign Out</Text>
         </Pressable>
       </View>
     </View>
@@ -107,6 +102,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Mulish',
     fontSize: 20,
     marginHorizontal: 20,
+    textAlign: 'center',
+  },
+  signOutText: {
+    color: 'white',
+    fontSize: 20,
     textAlign: 'center',
   },
 });

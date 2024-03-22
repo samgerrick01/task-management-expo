@@ -41,13 +41,7 @@ export const RightActions = (props: RightActionsProps) => {
             props.close();
             router.push(`/more/${props.id}`);
           }}
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            backgroundColor: 'orange',
-            paddingHorizontal: 20,
-            flex: 1,
-          }}
+          style={styles.btnMore}
         >
           <Text style={styles.rightActionText}>More</Text>
         </Pressable>
@@ -59,13 +53,7 @@ export const RightActions = (props: RightActionsProps) => {
               props.onPrio();
               props.close();
             }}
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              backgroundColor: 'red',
-              paddingHorizontal: 20,
-              flex: 1,
-            }}
+            style={[styles.btnMore, { backgroundColor: 'red' }]}
           >
             <Text style={styles.rightActionText}>
               {props.isPriority ? 'Unpin' : 'Pin'}
@@ -74,18 +62,7 @@ export const RightActions = (props: RightActionsProps) => {
         </AnimatedView>
       )}
       <AnimatedView style={animatedStyles}>
-        <Pressable
-          onPress={props.onDelete}
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            backgroundColor: 'crimson',
-            paddingHorizontal: 20,
-            flex: 1,
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-          }}
-        >
+        <Pressable onPress={props.onDelete} style={styles.btnDelete}>
           <Text style={styles.rightActionText}>Delete</Text>
         </Pressable>
       </AnimatedView>
@@ -96,5 +73,21 @@ export const RightActions = (props: RightActionsProps) => {
 const styles = StyleSheet.create({
   rightActionText: {
     color: 'white',
+  },
+  btnMore: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'orange',
+    paddingHorizontal: 20,
+    flex: 1,
+  },
+  btnDelete: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'crimson',
+    paddingHorizontal: 20,
+    flex: 1,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

@@ -1,3 +1,11 @@
+import EmptyComment from '@/components/home-components/EmptyComment';
+import { DataContext } from '@/context';
+import { updateItemComment, updateItemText } from '@/firebase/update';
+import InputModal from '@/shared/InputModal';
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import React, { useContext, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -9,17 +17,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, { useContext, useState } from 'react';
-import { Stack, router, useLocalSearchParams } from 'expo-router';
-import { DataContext } from '@/context';
-import { ITask } from '@/utils/interface';
-import { updateItemComment, updateItemText } from '@/firebase/update';
-import { AntDesign } from '@expo/vector-icons';
-import InputModal from '@/shared/InputModal';
-import EmptyComment from '@/components/home-components/EmptyComment';
-import { FontAwesome } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
-import { Entypo } from '@expo/vector-icons';
 
 const TaskDetails = () => {
   const { id } = useLocalSearchParams();
@@ -95,13 +92,7 @@ const TaskDetails = () => {
         source={require('@assets/images/background.png')}
         style={styles.bgImg}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 10,
-        }}
-      >
+      <View style={styles.titleColumn}>
         <Entypo
           onPress={() => router.back()}
           name='arrow-left'
@@ -112,57 +103,23 @@ const TaskDetails = () => {
       </View>
 
       <View style={styles.cardContainer}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: 'MulishBold',
-            marginVertical: 10,
-          }}
-        >
-          Task Title:
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 10,
-            alignItems: 'center',
-          }}
-        >
+        <Text style={styles.taskTitleLabel}>Task Title:</Text>
+        <View style={styles.titleColBtn}>
           {isEdit ? (
             <TextInput
-              style={{
-                borderWidth: 1,
-                padding: 10,
-                fontSize: 20,
-                width: '70%',
-                borderRadius: 5,
-                fontFamily: 'Mulish',
-              }}
+              style={styles.titleTextInput}
               value={editText}
               onChangeText={(text) => setEditText(text)}
               autoFocus
             />
           ) : (
-            <Text
-              numberOfLines={1}
-              style={{ fontSize: 20, maxWidth: '70%', fontFamily: 'Mulish' }}
-            >
+            <Text numberOfLines={1} style={styles.titleLabel}>
               {data.title}
             </Text>
           )}
 
           {isEdit ? (
-            <Pressable
-              onPress={handleEdit}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                padding: 10,
-                borderWidth: 1,
-                borderRadius: 5,
-              }}
-            >
+            <Pressable onPress={handleEdit} style={styles.titleBtn}>
               {loading ? (
                 <ActivityIndicator color='black' size={24} />
               ) : (
@@ -170,38 +127,17 @@ const TaskDetails = () => {
               )}
             </Pressable>
           ) : (
-            <Pressable
-              onPress={() => setIsEdit(true)}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                padding: 10,
-                borderWidth: 1,
-                borderRadius: 5,
-              }}
-            >
+            <Pressable onPress={() => setIsEdit(true)} style={styles.titleBtn}>
               <Text style={{ fontSize: 20 }}>Edit</Text>
             </Pressable>
           )}
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: 'MulishBold',
-              marginVertical: 10,
-            }}
-          >
-            Comments:
-          </Text>
+        <View style={styles.commentTitleWrapper}>
+          <Text style={styles.commentLabel}>Comments:</Text>
           <Pressable
             onPress={() => setOpenModal(true)}
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              gap: 5,
-            }}
+            style={styles.addCommentBtn}
           >
             <Text>Add Comment</Text>
             <AntDesign name='pluscircle' size={24} color='#deb176' />
@@ -294,5 +230,55 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Mulish',
     width: '80%',
+  },
+  titleColumn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  taskTitleLabel: {
+    fontSize: 20,
+    fontFamily: 'MulishBold',
+    marginVertical: 10,
+  },
+  titleColBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    alignItems: 'center',
+  },
+  titleTextInput: {
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 20,
+    width: '70%',
+    borderRadius: 5,
+    fontFamily: 'Mulish',
+  },
+  titleLabel: {
+    fontSize: 20,
+    maxWidth: '70%',
+    fontFamily: 'Mulish',
+  },
+  titleBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  commentTitleWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  commentLabel: {
+    fontSize: 20,
+    fontFamily: 'MulishBold',
+    marginVertical: 10,
+  },
+  addCommentBtn: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 5,
   },
 });

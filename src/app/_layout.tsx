@@ -1,17 +1,17 @@
+import AnimatedSplashScreen from '@/components/splash';
+import { DataContext } from '@/context';
+import { ITask } from '@/utils/interface';
 import {
   Mulish_400Regular,
-  Mulish_700Bold,
   Mulish_500Medium_Italic,
+  Mulish_700Bold,
 } from '@expo-google-fonts/mulish';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
-import AnimatedSplashScreen from '@/components/splash';
-import Animated, { FadeIn } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { DataContext } from '@/context';
-import { ITask } from '@/utils/interface';
 
 export default function RootLayout() {
   const [appReady, setAppReady] = useState<boolean>(false);

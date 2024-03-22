@@ -1,12 +1,12 @@
-import { ITask } from '@/utils/interface';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useContext, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
-import { RightActions } from './RightActions';
 import { DataContext } from '@/context';
 import { deleteMyTodoItem } from '@/firebase/delete';
 import { updatePrioItem, updateStatusItem } from '@/firebase/update';
+import { ITask } from '@/utils/interface';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useContext, useRef } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
+import { RightActions } from './RightActions';
 
 const SingleTask = (props: ITask) => {
   const { tasks, setTasks } = useContext(DataContext);
@@ -72,32 +72,8 @@ const SingleTask = (props: ITask) => {
         />
       )}
     >
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: 20,
-          backgroundColor: '#f5f5f5',
-          borderRadius: 10,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
-          margin: 10,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 5,
-            width: '80%',
-            alignItems: 'center',
-          }}
-        >
+      <View style={styles.main}>
+        <View style={styles.checkBox}>
           <Pressable onPress={checkAsComplete}>
             <MaterialCommunityIcons
               name={
@@ -127,6 +103,22 @@ const SingleTask = (props: ITask) => {
 export default SingleTask;
 
 const styles = StyleSheet.create({
+  main: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
   textNormal: {
     fontSize: 18,
     fontFamily: 'Mulish',
@@ -136,5 +128,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Mulish',
     textDecorationLine: 'line-through',
     color: 'gray',
+  },
+  checkBox: {
+    flexDirection: 'row',
+    gap: 5,
+    width: '80%',
+    alignItems: 'center',
   },
 });

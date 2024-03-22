@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 //Icons & Images
 import { AntDesign } from '@expo/vector-icons';

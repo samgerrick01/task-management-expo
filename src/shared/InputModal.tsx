@@ -1,4 +1,5 @@
 import { IModal } from '@/utils/interface';
+import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -9,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { AntDesign } from '@expo/vector-icons';
 
 const AddModal = (props: IModal) => {
   return (
@@ -35,41 +35,16 @@ const AddModal = (props: IModal) => {
 
           <TextInput
             placeholder='Enter text here...'
-            style={{
-              borderWidth: 1,
-              height: 50,
-              padding: 10,
-              borderRadius: 8,
-            }}
+            style={styles.textInput}
             value={props.inputText}
             onChangeText={(text) => props.setInputText(text)}
           />
 
-          <Pressable
-            style={{
-              width: '100%',
-              backgroundColor: 'skyblue',
-              padding: 10,
-              marginVertical: 10,
-              borderRadius: 8,
-              alignSelf: 'center',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={props.handleAdd}
-          >
+          <Pressable style={styles.btnContainer} onPress={props.handleAdd}>
             {props.loading ? (
               <ActivityIndicator color='white' size={24} />
             ) : (
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: 'MulishBold',
-                  color: 'white',
-                }}
-              >
-                Submit
-              </Text>
+              <Text style={styles.btnText}>Submit</Text>
             )}
           </Pressable>
         </View>
@@ -98,35 +73,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 12,
   },
-  desc: {
+  btnContainer: {
+    width: '100%',
+    backgroundColor: 'skyblue',
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 8,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
     fontSize: 18,
-    lineHeight: 24,
-    opacity: 0.7,
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  btnOk: {
-    marginTop: 24,
-    width: '48%',
-    backgroundColor: '#79d2d1',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 56,
-    borderRadius: 8,
-  },
-  buttonCLose: {
-    marginTop: 24,
-    backgroundColor: '#ff6666',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 56,
-    borderRadius: 8,
-  },
-  text: {
-    fontWeight: '600',
-    fontSize: 16,
+    fontFamily: 'MulishBold',
     color: 'white',
+  },
+  textInput: {
+    borderWidth: 1,
+    height: 50,
+    padding: 10,
+    borderRadius: 8,
   },
 });

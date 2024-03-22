@@ -1,23 +1,15 @@
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
-import { getAuth } from 'firebase/auth';
-import app from 'firebaseConfig';
-import { Stack, router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import ChartComponents from '@/components/home-components/ChartComponents';
 import TaskComponent from '@/components/home-components/TaskComponent';
-import InputModal from '@/shared/InputModal';
 import { DataContext } from '@/context';
 import { createTask } from '@/firebase/create';
 import { fetchOnlyMyTaskList } from '@/firebase/read';
+import InputModal from '@/shared/InputModal';
+import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { getAuth } from 'firebase/auth';
+import app from 'firebaseConfig';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 const index = () => {
   const user = getAuth(app).currentUser;

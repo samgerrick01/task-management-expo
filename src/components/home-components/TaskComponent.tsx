@@ -11,9 +11,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import SingleTask from './SingleTask';
-import EmptyTask from './EmptyTask';
 import { ActivityIndicator } from 'react-native-paper';
+import EmptyTask from './EmptyTask';
+import SingleTask from './SingleTask';
 
 interface IProps {
   openAddTask: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,31 +45,17 @@ const TaskComponent = (props: IProps) => {
 
   return (
     <View style={styles.container2}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-        }}
-      >
+      <View style={styles.addTaskContainer}>
         <Pressable
           onPress={() => props.openAddTask(true)}
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-            gap: 5,
-          }}
+          style={styles.addTaskBtn}
         >
           <Text>Add Task</Text>
           <AntDesign name='pluscircle' size={24} color='#deb176' />
         </Pressable>
 
         <Picker
-          style={{
-            alignItems: 'center',
-            height: 50,
-            width: 150,
-          }}
+          style={styles.picker}
           selectedValue={selected}
           onValueChange={(itemValue, itemIndex) => setSelected(itemValue)}
         >
@@ -104,5 +90,20 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     paddingVertical: 20,
+  },
+  addTaskContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  addTaskBtn: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 5,
+  },
+  picker: {
+    alignItems: 'center',
+    height: 50,
+    width: 150,
   },
 });
