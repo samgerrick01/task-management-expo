@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import app from 'firebaseConfig';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -33,12 +34,15 @@ const index = () => {
       try {
         const auth = getAuth(app);
         await signInWithEmailAndPassword(auth, email, password);
-        setLoading(false);
-        router.push('/(tabs)');
         return;
       } catch (error: any) {
         setLoading(false);
         alert(error.message);
+      } finally {
+        setEmail('');
+        setPassword('');
+        setLoading(false);
+        router.push('/(tabs)');
       }
     }
   };
@@ -111,7 +115,11 @@ const index = () => {
                 onPress={handleLogin}
                 style={styles.loginBtnWrapper}
               >
-                <Text style={styles.loginBtnText}>Login</Text>
+                {loading ? (
+                  <ActivityIndicator color='white' />
+                ) : (
+                  <Text style={styles.loginBtnText}>Login</Text>
+                )}
               </TouchableOpacity>
             </Animated.View>
 
@@ -188,13 +196,13 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 10,
     marginVertical: 10,
+    paddingVertical: 10,
   },
   loginBtnText: {
     fontSize: 16,
     fontFamily: 'MulishItalic',
     textAlign: 'center',
     color: 'white',
-    paddingVertical: 10,
   },
   registerBtnWrapper: {
     flexDirection: 'row',

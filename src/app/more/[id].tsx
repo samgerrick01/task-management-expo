@@ -10,12 +10,16 @@ import {
   View,
 } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { DataContext } from '@/context';
 import { ITask } from '@/utils/interface';
 import { updateItemComment, updateItemText } from '@/firebase/update';
 import { AntDesign } from '@expo/vector-icons';
 import InputModal from '@/shared/InputModal';
+import EmptyComment from '@/components/home-components/EmptyComment';
+import { FontAwesome } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import { Entypo } from '@expo/vector-icons';
 
 const TaskDetails = () => {
   const { id } = useLocalSearchParams();
@@ -59,7 +63,7 @@ const TaskDetails = () => {
       const updatedTasks = [...tasks];
       updatedTasks[index].comments = [...data.comments, inputText];
       setTasks(updatedTasks);
-      await updateItemComment(data.docId, [...data.comments, inputText]);
+      await updateItemComment(data.docId, updatedTasks[index].comments);
       setInputText('');
     } catch (error: any) {
       alert(error.message);
@@ -69,14 +73,43 @@ const TaskDetails = () => {
     }
   };
 
+  const handleDeleteComment = async (value: number) => {
+    try {
+      const index = tasks.findIndex((task) => task.docId === data.docId);
+      const updatedTasks = [...tasks];
+      updatedTasks[index].comments = updatedTasks[index].comments.filter(
+        (item, index) => index !== value
+      );
+      setTasks(updatedTasks);
+      await updateItemComment(data.docId, updatedTasks[index].comments);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+
   return (
     <View style={styles.main}>
       <Stack.Screen options={{ headerShown: false }} />
+      <StatusBar style='light' />
       <Image
         source={require('@assets/images/background.png')}
         style={styles.bgImg}
       />
-      <Text style={styles.titleText}>Task Details</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+        }}
+      >
+        <Entypo
+          onPress={() => router.back()}
+          name='arrow-left'
+          size={30}
+          color='white'
+        />
+        <Text style={styles.titleText}>Task Details</Text>
+      </View>
 
       <View style={styles.cardContainer}>
         <Text
@@ -175,26 +208,18 @@ const TaskDetails = () => {
           </Pressable>
         </View>
 
-        <SafeAreaView style={{ backgroundColor: 'red', flex: 1, padding: 10 }}>
+        <SafeAreaView style={{ flex: 1, padding: 10 }}>
           <FlatList
             data={data.comments}
+            ListEmptyComponent={EmptyComment}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  padding: 10,
-                  backgroundColor: 'white',
-                  marginVertical: 5,
-                  borderRadius: 5,
-                }}
-              >
-                <Text style={{ fontSize: 18, fontFamily: 'Mulish' }}>
+            renderItem={({ item, index }) => (
+              <View style={styles.commentFlatList}>
+                <Text numberOfLines={1} style={styles.commentText}>
                   {item}
                 </Text>
-                <Pressable>
-                  <Text style={{ fontSize: 18, color: 'red' }}>Delete</Text>
+                <Pressable onPress={() => handleDeleteComment(index)}>
+                  <FontAwesome name='remove' size={24} color='red' />
                 </Pressable>
               </View>
             )}
@@ -246,5 +271,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  commentFlatList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    backgroundColor: 'white',
+    marginVertical: 5,
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: 'wheat',
+  },
+  commentText: {
+    fontSize: 18,
+    fontFamily: 'Mulish',
+    width: '80%',
   },
 });

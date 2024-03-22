@@ -38,7 +38,7 @@ export default function HomeScreen() {
       />
 
       <Animated.View entering={FadeInDown.duration(1000).springify()}>
-        <Link href={`/(tabs)`} asChild>
+        <Link href={`/login`} asChild>
           <TouchableOpacity style={styles.btnWrapper}>
             <Text style={styles.text}>Let's Begin</Text>
             <AntDesign name='rightcircle' size={24} color='white' />

@@ -60,14 +60,19 @@ const index = () => {
           password
         );
         await updateProfile(response.user, { displayName: userName });
-        setLoading(false);
-        alert('User registered successfully');
-        Alert.alert('Success', 'User registered successfully', [
-          { text: 'OK', onPress: () => router.push('/login') },
-        ]);
+        return;
       } catch (error: any) {
         setLoading(false);
         alert(error.message);
+      } finally {
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setUserName('');
+        setLoading(false);
+        Alert.alert('Success', 'User registered successfully', [
+          { text: 'OK', onPress: () => router.push('/login') },
+        ]);
       }
     }
   };
