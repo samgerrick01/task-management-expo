@@ -60,11 +60,6 @@ const index = () => {
           password
         );
         await updateProfile(response.user, { displayName: userName });
-        return;
-      } catch (error: any) {
-        setLoading(false);
-        alert(error.message);
-      } finally {
         setEmail('');
         setPassword('');
         setConfirmPassword('');
@@ -73,6 +68,9 @@ const index = () => {
         Alert.alert('Success', 'User registered successfully', [
           { text: 'OK', onPress: () => router.push('/login') },
         ]);
+      } catch (error: any) {
+        setLoading(false);
+        alert(error.message);
       }
     }
   };

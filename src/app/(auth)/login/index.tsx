@@ -34,15 +34,13 @@ const index = () => {
       try {
         const auth = getAuth(app);
         await signInWithEmailAndPassword(auth, email, password);
-        return;
-      } catch (error: any) {
-        setLoading(false);
-        alert(error.message);
-      } finally {
         setEmail('');
         setPassword('');
         setLoading(false);
         router.push('/(tabs)');
+      } catch (error: any) {
+        setLoading(false);
+        alert(error.message);
       }
     }
   };
